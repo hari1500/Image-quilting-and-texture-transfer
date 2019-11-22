@@ -1,7 +1,7 @@
 %%MainScript
 
 %Input image
-img = 'inputs/quilting/olives.gif';
+img = 'inputs/quilting/bread.gif';
 
 [original_img,map] = imread(img);
 original_img = im2double(ind2rgb(original_img,map));
@@ -13,9 +13,9 @@ figure;
 imshow(original_img);
 % Parameters
 
-blocksize = 60;
+blocksize = 42;
 o = blocksize/6;
-tolerance = 1.2;
+tolerance = 1.1;
 
 % Ouput image
 temp = blocksize - o;
