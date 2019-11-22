@@ -31,8 +31,8 @@ function [xi,xj] = getPatch(block_h, block_v, texture, tolerance, o, blocksize, 
     end
     
     minError = min(errors(:));
-    minError = max(minError, 0.5);
-    [indi, indj] = find(errors < tolerance*minError);
+    minError = max(minError, 0.05);
+    [indi, indj] = find(errors <= tolerance*minError);
     ind = randi(length(indi),1);
     xi = indi(ind);
     xj = indj(ind);

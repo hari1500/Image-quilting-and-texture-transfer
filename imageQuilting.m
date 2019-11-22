@@ -1,15 +1,13 @@
 %%MainScript
 
 %Input image
-img = 'inputs/quilting/apples.gif';
+img = 'inputs/quilting/7.gif';
 
 [original_img,map] = imread(img);
 original_img = im2double(ind2rgb(original_img,map));
 texture_img = rgb2gray(original_img);
 
 [H,W,D] = size(original_img);
-
-imshow(texture_img);
 
 figure;
 imshow(original_img);
@@ -21,13 +19,15 @@ tolerance = 1.1;
 
 % Ouput image
 temp = blocksize - o;
-H_out = 2*temp*floor(H/temp) + o;
-W_out = 2*temp*floor(W/temp) + o;
+H_out = 2*temp*ceil(H/temp) + o;
+W_out = 2*temp*ceil(W/temp) + o;
 
 texture_out = zeros([H_out,W_out]);
 texture_out3D = zeros([H_out, W_out,D]);
 
 net_patch = blocksize - o;
+
+foo = waitbar(0,"Quilting");
 for i=1:net_patch:H_out-blocksize+1
     for j=1:net_patch:W_out-blocksize+1
         
@@ -39,8 +39,10 @@ for i=1:net_patch:H_out-blocksize+1
         b_inds = blocksize-o+1:blocksize;
         
         if i==1 && j == 1
-            xind = randi(H-blocksize,1);
-            yind = randi(W-blocksize,1);
+%             xind = randi(H-blocksize,1);
+%             yind = randi(W-blocksize,1);
+            xind = 1;
+            yind = 1;
             texture_out(i_inds,j_inds) = texture_img(xind:xind+blocksize-1,yind:yind+blocksize-1);
             texture_out3D(i_inds,j_inds,:) = original_img(xind:xind+blocksize-1,yind:yind+blocksize-1,:);
         
@@ -83,12 +85,12 @@ for i=1:net_patch:H_out-blocksize+1
             block_h3D = texture_out3D(i_inds,j_prev:j_prev+blocksize-1,:);
             block_v = texture_out(i_prev:i_prev+blocksize-1,j_inds);
             block_v3D = texture_out3D(i_prev:i_prev+blocksize-1,j_inds,:);
-            [xind, yind] = getPatch(block_h,block_v,texture_img,tolerance,o,blocksize,'hv');
+            [xind, yind] = getPatch(block_h,block_v,texture_img,tolerance,o,blocksize,'m');
             
             curr_patch = texture_img(xind:xind+blocksize-1,yind:yind+blocksize-1);
             curr_patch3D = original_img(xind:xind+blocksize-1,yind:yind+blocksize-1,:);
             
-            [mask_h,mask_v] = getBoundary(block_h,block_v,curr_patch,o,blocksize,'hv');
+            [mask_h,mask_v] = getBoundary(block_h,block_v,curr_patch,o,blocksize,'m');
             mask_h3D = repmat(mask_h,[1,1,3]);
             mask_v3D = repmat(mask_v,[1,1,3]);
             
@@ -100,11 +102,10 @@ for i=1:net_patch:H_out-blocksize+1
             texture_out(i_inds,j_inds) = curr_patch;
             texture_out3D(i_inds,j_inds,:) = curr_patch3D;
         end
-        
+        waitbar(i/((H_out-blocksize+1)),foo);
     end
 end
-
-figure;
-imshow(texture_out);
-figure;
+close(foo);
 imshow(texture_out3D);
+[filepath,name,ext] = fileparts(img);
+saveas(gcf,strcat(name, ".png"));
