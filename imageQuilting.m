@@ -27,7 +27,7 @@ texture_out3D = zeros([H_out, W_out,D]);
 
 net_patch = blocksize - o;
 
-foo = waitbar(0,"Quilting");
+foo = waitbar(0,'Quilting');
 for i=1:net_patch:H_out-blocksize+1
     for j=1:net_patch:W_out-blocksize+1
         
@@ -108,4 +108,4 @@ end
 close(foo);
 imshow(texture_out3D);
 [filepath,name,ext] = fileparts(img);
-saveas(gcf,strcat(name, ".png"));
+saveas(gcf,strcat('outputs/', name, '.png'));
