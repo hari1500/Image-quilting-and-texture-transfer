@@ -1,8 +1,8 @@
 function [xi,xj] = getPatch(block_h, block_v, texture, tolerance, o, blocksize, flag)
     [H,W] = size(texture);
     errors = zeros([H - blocksize+1, W - blocksize+1]);
-    overlap_bh = zeros([blocksize, blocksize]);
-    overlap_bv = zeros([blocksize, blocksize]);
+    overlap_bh = zeros([blocksize, o]);
+    overlap_bv = zeros([o, blocksize]);
     if flag == 'h'
         overlap_bh = block_h(:,blocksize-o+1:blocksize);
     elseif flag == 'v'
