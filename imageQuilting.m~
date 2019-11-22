@@ -14,7 +14,6 @@ imshow(texture_img);
 
 block_size = 60;
 overlap = 10;
-tolerance = 
 
 % Ouput image
 temp = block_size - overlap;
@@ -30,10 +29,5 @@ for i=1:H_out
         if i==1 && j == 1
             xind = randi(H-block_size,1);
             yind = randi(W-block_size,1);
-            texture_out(1,1) = texture_img(xind,yind);
-            texture_out3D(1,1,:) = original_img(xind,yind,:);
-        end
-    end
-end
-
+            
             
