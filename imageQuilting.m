@@ -1,7 +1,7 @@
 %%MainScript
 
 %Input image
-img = 'inputs/quilting/3.gif';
+img = 'inputs/quilting/apples.gif';
 
 [original_img,map] = imread(img);
 original_img = im2double(ind2rgb(original_img,map));
@@ -73,7 +73,7 @@ for i=1:net_patch:H_out-blocksize+1
             mask_v3D = repmat(mask_v,[1,1,3]);
             
             curr_patch(1:o,:) = block_v(b_inds,:).*(1-mask_v) + curr_patch(1:o,:).*mask_v;
-            curr_patch3D(1:o,:,:) = block_v3D(b_inds,:,:).*(1-mask_v3D) + curr_patch(1:o,:,:).*mask_v3D;
+            curr_patch3D(1:o,:,:) = block_v3D(b_inds,:,:).*(1-mask_v3D) + curr_patch3D(1:o,:,:).*mask_v3D;
             
             texture_out(i_inds,j_inds) = curr_patch;
             texture_out3D(i_inds,j_inds,:) = curr_patch3D;
@@ -95,7 +95,7 @@ for i=1:net_patch:H_out-blocksize+1
             curr_patch(:,1:o) = block_h(:,b_inds).*(1-mask_h) + curr_patch(:,1:o).*mask_h;
             curr_patch3D(:,1:o,:) = block_h3D(:,b_inds,:).*(1-mask_h3D) + curr_patch3D(:,1:o,:).*mask_h3D;
             curr_patch(1:o,:) = block_v(b_inds,:).*(1-mask_v) + curr_patch(1:o,:).*mask_v;
-            curr_patch3D(1:o,:,:) = block_v3D(b_inds,:,:).*(1-mask_v3D) + curr_patch(1:o,:,:).*mask_v3D;
+            curr_patch3D(1:o,:,:) = block_v3D(b_inds,:,:).*(1-mask_v3D) + curr_patch3D(1:o,:,:).*mask_v3D;
             
             texture_out(i_inds,j_inds) = curr_patch;
             texture_out3D(i_inds,j_inds,:) = curr_patch3D;
