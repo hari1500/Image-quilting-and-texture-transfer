@@ -15,8 +15,8 @@ function [xi,xj] = getPatch(block_h, block_v, texture, tolerance, o, blocksize, 
     for i=1:H-blocksize+1
         for j=1:W-blocksize+1
             patch = texture(i:i+blocksize-1, j:j+blocksize-1);
-            overlap_th = patch(:,1:o); 
-            overlap_tv = patch(1:o,:);
+            overlap_th = patch(:,blocksize - o+1:blocksize); 
+            overlap_tv = patch(blocksize - o+1:blocksize,:);
             
             diff_h = (overlap_th - overlap_bh).^2;
             diff_v = (overlap_tv - overlap_bv).^2;
@@ -37,4 +37,5 @@ function [xi,xj] = getPatch(block_h, block_v, texture, tolerance, o, blocksize, 
     xi = indi(ind);
     xj = indj(ind);
 %     block = texture(xi:xi+blocksize-1, xj:xj+blocksize-1);
+    
 end
