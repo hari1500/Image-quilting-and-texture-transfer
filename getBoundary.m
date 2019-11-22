@@ -51,7 +51,7 @@ function [leftCut,topCut] = getBoundary(leftBlock, topBlock, curBlock, o, blocks
         I = Back_top(I,blocksize);
         for i = blocksize-1:-1:1
             topCut(I:o,i) = 1;
-            I = Back_top(i, I);
+            I = Back_top(I, i);
         end
     end    
 end
