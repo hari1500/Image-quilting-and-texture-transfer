@@ -34,7 +34,9 @@ function [xi,xj] = getPatchTransfer(block_h, block_v, texture, tolerance, o, blo
         end
     end
     
-    minError = min(errors(errors>0));
+    pos_errors = errors(errors>0);
+    minError = min(pos_errors(:));
+    
     [indi, indj] = find(errors < tolerance*minError);
     ind = randi(length(indi),1);
     xi = indi(ind);

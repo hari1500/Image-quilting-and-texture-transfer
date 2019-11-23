@@ -1,7 +1,7 @@
 %%MainScript
 
 %Input image
-img = 'inputs/quilting/S2.gif';
+img = 'inputs/synthesis/S2.gif';
 
 [original_img,map] = imread(img);
 original_img = im2double(ind2rgb(original_img,map));
@@ -109,4 +109,4 @@ end
 close(foo);
 imshow(texture_out3D);
 [filepath,name,ext] = fileparts(img);
-saveas(gcf,strcat('outputs/', name, '.png'));
+saveas(gcf,strcat('outputs/synthesis/', name, '.png'));
