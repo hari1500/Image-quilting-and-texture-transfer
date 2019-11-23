@@ -1,4 +1,4 @@
-function [xi,xj] = getPatch(block_h, block_v, texture, tolerance, o, blocksize, flag)
+function [xi,xj] = getPatchTransfer(block_h, block_v, texture, tolerance, o, blocksize, flag, targetPatch, alpha)
     [H,W] = size(texture);
     errors = zeros([H - blocksize+1, W - blocksize+1]);
     overlap_bh = zeros([blocksize, o]);
@@ -15,6 +15,7 @@ function [xi,xj] = getPatch(block_h, block_v, texture, tolerance, o, blocksize, 
     for i=1:H-blocksize+1
         for j=1:W-blocksize+1
             patch = texture(i:i+blocksize-1, j:j+blocksize-1);
+
             overlap_th = patch(:,1:o); 
             overlap_tv = patch(1:o,:);
             
@@ -27,12 +28,13 @@ function [xi,xj] = getPatch(block_h, block_v, texture, tolerance, o, blocksize, 
             else
                 errors(i,j) = sum(diff_h(:)) + sum(diff_v(:));
             end
+
+            diff_tar_patch = (targetPatch - patch).^2;
+            errors(i,j) = alpha*errors(i,j) + (1-alpha)*sum(diff_tar_patch(:));
         end
     end
     
-    pos_errors = errors(errors>0);
-    minError = min(pos_errors);
-    % minError = max(minError, 0.05);
+    minError = min(errors(errors>0));
     [indi, indj] = find(errors < tolerance*minError);
     ind = randi(length(indi),1);
     xi = indi(ind);

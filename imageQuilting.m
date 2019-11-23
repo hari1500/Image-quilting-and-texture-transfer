@@ -1,12 +1,13 @@
 %%MainScript
 
 %Input image
-img = 'inputs/quilting/apples.gif';
+img = 'inputs/quilting/S2.gif';
 
 [original_img,map] = imread(img);
 original_img = im2double(ind2rgb(original_img,map));
 texture_img = rgb2gray(original_img);
 
+% original_img = original_img(1:60, 1:60);
 [H,W,D] = size(original_img);
 
 imshow(texture_img);
@@ -15,8 +16,8 @@ figure;
 imshow(original_img);
 % Parameters
 
-blocksize = 60;
-o = 10;
+blocksize = 90;
+o = 20;
 tolerance = 1.1;
 
 % Ouput image
@@ -83,12 +84,12 @@ for i=1:net_patch:H_out-blocksize+1
             block_h3D = texture_out3D(i_inds,j_prev:j_prev+blocksize-1,:);
             block_v = texture_out(i_prev:i_prev+blocksize-1,j_inds);
             block_v3D = texture_out3D(i_prev:i_prev+blocksize-1,j_inds,:);
-            [xind, yind] = getPatch(block_h,block_v,texture_img,tolerance,o,blocksize,'hv');
+            [xind, yind] = getPatch(block_h,block_v,texture_img,tolerance,o,blocksize,'m');
             
             curr_patch = texture_img(xind:xind+blocksize-1,yind:yind+blocksize-1);
             curr_patch3D = original_img(xind:xind+blocksize-1,yind:yind+blocksize-1,:);
             
-            [mask_h,mask_v] = getBoundary(block_h,block_v,curr_patch,o,blocksize,'hv');
+            [mask_h,mask_v] = getBoundary(block_h,block_v,curr_patch,o,blocksize,'m');
             mask_h3D = repmat(mask_h,[1,1,3]);
             mask_v3D = repmat(mask_v,[1,1,3]);
             
